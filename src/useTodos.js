@@ -19,10 +19,26 @@ const INITIAL_TODOS = [
 export function useTodos() {
   // Placeholder so the list renders — REPLACE it. Right now `todos` is a
   // static array and the actions do nothing; swap in useState + real updates.
-  return {
-    todos: INITIAL_TODOS,
-    addTodo: () => {},
-    toggleTodo: () => {},
-    deleteTodo: () => {},
+  const [todos, setTodos] = useState(INITIAL_TODOS);
+
+  const addTodo = (text) => {
+    const newTodo = {
+      id: crypto.randomUUID(),
+      text,
+      done: false
+    };
+    setTodos([...todos, newTodo]);
   };
+
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo => todo.id === id ? { ...todo, done: !todo.done } : todo ));
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+
+
+  return { todos, addTodo, toggleTodo, deleteTodo };
 }
